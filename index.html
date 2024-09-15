@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- <link rel="icon" type="image/x-icon" href="img/favicon.jpg" /> -->
+		<link
+			href="https://fonts.googleapis.com/css?family=Lato"
+			rel="stylesheet"
+		/>
+		<script type="text/javascript" src="main.js"></script>
+
+		<style>
+			body {
+				background-color: antiquewhite;
+				font-family: Lato;
+			}
+
+			.button {
+				border-radius: 8px;
+				border-style: solid;
+				border-width: 2px;
+				border-color: #222;
+				padding: 4px;
+				background-color: red;
+				cursor: pointer;
+				text-align: center;
+				/* box-shadow: 4px 4px 8px 2px #888; */
+				color: white;
+				/* font-size: 22px; */
+				width: 80px !important;
+				margin: 8px;
+			}
+		</style>
+	</head>
+	<body onload="load()">
+		<div
+			id="toggle-recording-button"
+			class="button"
+			onClick="toggleRecording()"
+		></div>
+		<audio id="sound-player" controls />
+
+		<audio id="recorded-audio" controls />
+	</body>
+</html>
