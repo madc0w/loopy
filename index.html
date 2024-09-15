@@ -10,8 +10,9 @@
 
 		<style>
 			body {
-				background-color: antiquewhite;
+				background-color: #002;
 				font-family: Lato;
+				color: white;
 			}
 
 			.button {
@@ -20,7 +21,7 @@
 				border-width: 2px;
 				border-color: #222;
 				padding: 4px;
-				background-color: red;
+				background-color: green;
 				cursor: pointer;
 				text-align: center;
 				/* box-shadow: 4px 4px 8px 2px #888; */
@@ -29,16 +30,31 @@
 				width: 80px !important;
 				margin: 8px;
 			}
+
+			.button:hover {
+				background-color: lightgreen;
+				color: black;
+			}
+
+			#header {
+				font-size: 28px;
+			}
+
+			audio {
+				border-width: 4px;
+				border-color: #ddd;
+				border-style: solid;
+				border-radius: 8px;
+			}
 		</style>
 	</head>
 	<body onload="load()">
+		<div id="header">Loopy</div>
 		<div
 			id="toggle-recording-button"
 			class="button"
 			onClick="toggleRecording()"
 		></div>
-		<audio id="sound-player" controls />
-
-		<audio id="recorded-audio" controls />
+		<audio id="recorded-audio" controls></audio>
 	</body>
 </html>

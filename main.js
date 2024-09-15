@@ -1,36 +1,19 @@
 let isRecording = false;
 let audioChunks = [];
 let mediaRecorder;
+let recordedAudio;
 
-function load() {
+async function load() {
 	document.getElementById('toggle-recording-button').innerHTML = 'Start';
-}
-
-async function toggleRecording() {
-	isRecording = !isRecording;
-	document.getElementById('toggle-recording-button').innerHTML = isRecording
-		? 'Stop'
-		: 'Start';
-
-	if (isRecording) {
-		recordAudio();
-	} else {
+	recordedAudio = document.getElementById('recorded-audio');
+	recordedAudio.addEventListener('ended', async () => {
+		// console.log('ended');
 		mediaRecorder.stop();
-		const recordedAudio = document.getElementById('recorded-audio');
-		recordedAudio.addEventListener('ended', async () => {
-			console.log('ended');
-			mediaRecorder.stop();
-			await recordAudio();
-			recordedAudio.play();
-		});
-		setTimeout(() => {
-			recordedAudio.play();
-		}, 20);
-	}
-}
+		audioChunks = [];
+		mediaRecorder.start();
+		recordedAudio.play();
+	});
 
-async function recordAudio() {
-	const recordedAudio = document.getElementById('recorded-audio');
 	const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
 	mediaRecorder = new MediaRecorder(stream);
@@ -45,8 +28,23 @@ async function recordAudio() {
 		const audioUrl = URL.createObjectURL(audioBlob);
 		// console.log('audioUrl', audioUrl);
 		recordedAudio.src = audioUrl;
-		audioChunks = [];
+		recordedAudio.play();
+		// audioChunks = [];
 	};
+}
 
-	mediaRecorder.start();
+async function toggleRecording() {
+	isRecording = !isRecording;
+	document.getElementById('toggle-recording-button').innerHTML = isRecording
+		? 'Stop'
+		: 'Start';
+
+	if (isRecording) {
+		mediaRecorder.start();
+	} else {
+		mediaRecorder.stop();
+		setTimeout(() => {
+			recordedAudio.play();
+		}, 20);
+	}
 }
