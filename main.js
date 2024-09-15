@@ -1,21 +1,21 @@
-let isRecording = false;
 let audioChunks = [];
-let mediaRecorder;
-let recordedAudio;
+let mediaRecorder, recordedAudio, state;
 
 async function load() {
-	document.getElementById('toggle-recording-button').innerHTML = 'Start';
+	setState('waiting');
 	recordedAudio = document.getElementById('recorded-audio');
 	recordedAudio.addEventListener('ended', async () => {
 		// console.log('ended');
 		mediaRecorder.stop();
 		audioChunks = [];
-		mediaRecorder.start();
-		recordedAudio.play();
+		// console.log('state', state);
+		if (state == 'playing') {
+			mediaRecorder.start();
+			recordedAudio.play();
+		}
 	});
 
 	const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
 	mediaRecorder = new MediaRecorder(stream);
 	mediaRecorder.ondataavailable = (event) => {
 		audioChunks.push(event.data);
@@ -33,18 +33,28 @@ async function load() {
 	};
 }
 
-async function toggleRecording() {
-	isRecording = !isRecording;
-	document.getElementById('toggle-recording-button').innerHTML = isRecording
-		? 'Stop'
-		: 'Start';
-
-	if (isRecording) {
+async function buttonClick() {
+	if (state == 'waiting') {
+		setState('recording');
 		mediaRecorder.start();
-	} else {
+	} else if (state == 'recording') {
+		setState('playing');
 		mediaRecorder.stop();
 		setTimeout(() => {
 			recordedAudio.play();
 		}, 20);
+	} else if (state == 'playing') {
+		setState('waiting');
+	} else {
+		console.error('unhandled state:', state);
 	}
+}
+
+function setState(_state) {
+	state = _state;
+	document.getElementById('toggle-recording-button').innerHTML = {
+		waiting: 'Record',
+		recording: 'End Recording',
+		playing: 'Stop',
+	}[state];
 }

@@ -27,8 +27,8 @@
 				/* box-shadow: 4px 4px 8px 2px #888; */
 				color: white;
 				/* font-size: 22px; */
-				width: 80px !important;
 				margin: 8px;
+				width: 120px;
 			}
 
 			.button:hover {
@@ -37,7 +37,8 @@
 			}
 
 			#header {
-				font-size: 28px;
+				font-size: 32px;
+				font-weight: bold;
 			}
 
 			audio {
@@ -53,7 +54,7 @@
 		<div
 			id="toggle-recording-button"
 			class="button"
-			onClick="toggleRecording()"
+			onClick="buttonClick()"
 		></div>
 		<audio id="recorded-audio" controls></audio>
 	</body>
